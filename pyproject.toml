@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "swag-server"
+version = "2.0.0"
+description = ""
+authors = []
+repository = "https://github.com/swaglive/swag-server"
+
+[tool.poetry.dependencies]
+python = "~3.11"
+argon2-cffi = "23.1.0"
+ddtrace = "2.1.2"
+flask = "2.2.5"
+flask-mongoengine = "1.0.0"
+gevent = "23.9.1"
+mongoengine = "0.27.0"
+pymongo = {version = "=4.5.0",extras = ["tls","zstd"]}
+uwsgi = "2.0.22"
+
+[[tool.poetry.source]]
+name = "pypi"
+priority = "primary"
+
+[tool.black]
+target-version = ["py311"]
+skip-string-normalization = true
+line-length = 88
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203"
+
+[tool.isort]
+multi_line_output = 5
+
+[build-system]
+requires = ["poetry-core==1.7.0"]
+build-backend = "poetry.core.masonry.api"
