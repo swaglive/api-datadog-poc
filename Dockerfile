@@ -152,6 +152,5 @@ RUN         apk add --no-cache --virtual .run-deps \
 
 COPY        --from=poetry /root/.local /root/.local
 COPY        --from=builder /usr/local /usr/local
-#            # HACK: celery 5.0's purge errors if -Q flag is used
-#RUN         sed -i 's|queues = queues or set()|queues = set(queues or set())|' /usr/local/lib/python3.11/site-packages/celery/bin/purge.py
+
 COPY        . .

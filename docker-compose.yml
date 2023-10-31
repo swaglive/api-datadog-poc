@@ -6,10 +6,11 @@ x-defaults: &defaults
   - default
 
 services:
-  api:
+  flask:
     entrypoint: ["uwsgi"]
-    # command: ["--ini", "config/uwsgi.ini"]
-    command: ["--ini", "config/uwsgi-from-docs.ini"]
+    command: ["--ini", "config/uwsgi.ini"]
+    # Use this instead to see the example
+    # command: ["--ini", "config/uwsgi-from-docs.ini"]
     build:
       context: .
     hostname: api
