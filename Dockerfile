@@ -2,29 +2,6 @@ ARG         base=python:3.11.6-alpine3.18
 
 ###
 
-FROM        ${base} AS jemalloc
-
-ARG         MAKEFLAGS
-ARG         JEMALLOC_VERSION=5.3.0
-
-ENV         MAKEFLAGS=${MAKEFLAGS}
-
-RUN         apk add --no-cache --virtual .build-deps \
-                curl \
-                autoconf \
-                build-base && \
-            curl -sfL https://github.com/jemalloc/jemalloc/archive/$JEMALLOC_VERSION.tar.gz | tar xz && \
-            ( \
-                cd jemalloc-$JEMALLOC_VERSION && \
-                autoconf && \
-                ./configure && \
-                make && \
-                make install \
-            ) && \
-            apk del .build-deps
-
-###
-
 FROM        ${base} AS poetry
 
 ARG         MAKEFLAGS
@@ -81,15 +58,11 @@ ENV         PIP_DEFAULT_TIMEOUT=${PIP_DEFAULT_TIMEOUT}
 ENV         POETRY_VIRTUALENVS_CREATE=false
 ENV         POETRY_INSTALLER_MAX_WORKERS=100
 
-ENV         UWSGI_PROFILE_OVERRIDE=malloc_implementation=jemalloc
-
 ENV         PYYAML_FORCE_LIBYAML=1
 ENV         PYYAML_FORCE_CYTHON=1
 
 WORKDIR     /usr/src/app
 
-COPY        --from=jemalloc /usr/local/lib /usr/local/lib
-COPY        --from=jemalloc /usr/local/include /usr/local/include
 COPY        --from=poetry /root/.local /root/.local
 
 COPY        pyproject.toml .
@@ -132,7 +105,6 @@ ENV         GEVENT_RESOLVER=ares
 ENV         GEVENT_LOOP=libev-cffi
 ENV         TERM=xterm
 ENV         POETRY_VIRTUALENVS_CREATE=false
-ENV         LD_PRELOAD=/usr/local/lib/libjemalloc.so
 ENV         PATH=/root/.local/bin:$PATH
 
 WORKDIR     /usr/src/app

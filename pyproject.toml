@@ -6,14 +6,11 @@ authors = []
 
 [tool.poetry.dependencies]
 python = "~3.11"
-argon2-cffi = "23.1.0"
 ddtrace = "2.1.2"
 flask = "2.2.5"
-flask-mongoengine = "1.0.0"
 gevent = "23.9.1"
-mongoengine = "0.27.0"
-pymongo = {version = "=4.5.0",extras = ["tls","zstd"]}
 uwsgi = "2.0.22"
+cffi= "1.16.0"
 
 [[tool.poetry.source]]
 name = "pypi"
